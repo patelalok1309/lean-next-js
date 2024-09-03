@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import React from "react";
 import { TitleForm } from "./_components/TitleForm";
 import { DescriptionForm } from "./_components/DescriptionForm";
+import { ImageForm } from "./_components/ImageForm";
 
 async function CourseIdPage({ params }: { params: { courseId: string } }) {
     const { userId } = auth();
@@ -37,8 +38,8 @@ async function CourseIdPage({ params }: { params: { courseId: string } }) {
 
     const completionText = `(${completedFields}/${totalFields})`;
 
-    return(
-         <div className="p-6">
+    return (
+        <div className="p-6">
             <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-y-2">
                     <h1 className="text-2xl font-medium"> Course setup </h1>
@@ -56,17 +57,16 @@ async function CourseIdPage({ params }: { params: { courseId: string } }) {
                             Customize your course
                         </h2>
                     </div>
-                    <TitleForm 
+                    <TitleForm initialData={course} courseId={course.id} />
+                    <DescriptionForm
                         initialData={course}
                         courseId={course.id}
                     />
-                    <DescriptionForm 
-                        initialData={course}
-                        courseId={course.id}
-                    />
+                    <ImageForm initialData={course} courseId={course.id} />
                 </div>
             </div>
-    </div>);
+        </div>
+    );
 }
 
 export default CourseIdPage;
