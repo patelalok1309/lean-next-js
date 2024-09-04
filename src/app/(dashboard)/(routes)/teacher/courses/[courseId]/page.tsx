@@ -1,13 +1,20 @@
 import { IconBadge } from "@/components/icon-badge";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
-import { LayoutDashboard } from "lucide-react";
+import {
+    CircleDollarSignIcon,
+    File,
+    LayoutDashboard,
+    ListChecks,
+} from "lucide-react";
 import { redirect } from "next/navigation";
 import React from "react";
 import { TitleForm } from "./_components/TitleForm";
 import { DescriptionForm } from "./_components/DescriptionForm";
 import { ImageForm } from "./_components/ImageForm";
 import { CategoryForm } from "./_components/CategoryForm";
+import { PriceForm } from "./_components/PriceForm";
+import { AttachmentForm } from "./_components/AttachmentForm";
 
 async function CourseIdPage({ params }: { params: { courseId: string } }) {
     const { userId } = auth();
@@ -20,6 +27,13 @@ async function CourseIdPage({ params }: { params: { courseId: string } }) {
         where: {
             id: params.courseId,
         },
+        include: {
+            attachments: {
+                orderBy: {
+                    createdAt: "desc",
+                },
+            },
+        },
     });
 
     const categories = await db.category.findMany({
@@ -27,8 +41,6 @@ async function CourseIdPage({ params }: { params: { courseId: string } }) {
             name: "asc",
         },
     });
-
-    console.log("categories", categories);
 
     if (!course) {
         return redirect("/");
@@ -52,13 +64,13 @@ async function CourseIdPage({ params }: { params: { courseId: string } }) {
             <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-y-2">
                     <h1 className="text-2xl font-medium"> Course setup </h1>
-                    <span className="text-sm text-slate-700">
+                    <span className="text-sm text-slate-700 dark:text-white">
                         Complete all fields {completionText}
                     </span>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
                 <div>
                     <div className="flex items-center gap-x-2">
                         <IconBadge icon={LayoutDashboard} />
@@ -80,6 +92,32 @@ async function CourseIdPage({ params }: { params: { courseId: string } }) {
                             value: category.id,
                         }))}
                     />
+                </div>
+                <div className="space-y-6">
+                    <div>
+                        <div className="flex items-center gap-x-2">
+                            <IconBadge icon={ListChecks} />
+                            <h2 className="text-xl">Course chapters</h2>
+                        </div>
+                        <div>TODO: Chapters</div>
+                    </div>
+                    <div>
+                        <div className="flex items-center gap-x-2">
+                            <IconBadge icon={CircleDollarSignIcon} />
+                            <h2 className="text-xl">Sell your course</h2>
+                        </div>
+                        <PriceForm initialData={course} courseId={course.id} />
+                    </div>
+                    <div>
+                        <div className="flex items-center gap-x-2">
+                            <IconBadge icon={File} />
+                            <h2 className="text-xl">Course attachments</h2>
+                        </div>
+                        <AttachmentForm
+                            initialData={course}
+                            courseId={course.id}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
