@@ -4,21 +4,11 @@ import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import {
-    FormControl,
-    FormItem,
-    Form,
-    FormField,
-    FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { Textarea } from "@/components/ui/textarea";
 import { Course } from "@prisma/client";
 import Image from "next/image";
 import { FileUpload } from "@/components/file-uploads";
@@ -29,12 +19,10 @@ interface ImageFormProps {
 }
 
 const formSchema = z.object({
-    ImageUrl: z.string().min(1, { message: "Image is required" }),
+    imageUrl: z.string().min(1, { message: "Image is required" }),
 });
 
 export const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
-
-    console.log(initialData)
     const router = useRouter();
 
     const [isEditing, setIsEditing] = useState(false);
@@ -44,7 +32,7 @@ export const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            ImageUrl: initialData?.imageUrl || "",
+            imageUrl: initialData?.imageUrl || "",
         },
     });
 
@@ -61,7 +49,7 @@ export const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
         }
     };
     return (
-        <div className="mt-6 border bg-slate-100 rounded-md p-4">
+        <div className="mt-6 border bg-slate-100 dark:bg-slate-950 dark:text-white rounded-md p-4">
             <div className="font-medium flex items-center justify-between">
                 Course Image
                 <Button variant={"ghost"} onClick={toggleEdit}>
@@ -82,7 +70,7 @@ export const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
             </div>
             {!isEditing &&
                 (!initialData.imageUrl ? (
-                    <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md">
+                    <div className="flex items-center justify-center h-60 bg-slate-200 dark:bg-slate-950 dark:text-white outline-dotted mt-1 outline-slate-800 rounded-md">
                         <ImageIcon className="h-10 w-10 text-slate-500" />
                     </div>
                 ) : (

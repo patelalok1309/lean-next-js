@@ -5,6 +5,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
+import { ModeToggle } from "./mode-toggle";
 
 function NavbarRoutes() {
     const pathname = usePathname();
@@ -13,6 +14,7 @@ function NavbarRoutes() {
     const isPlayerPage = pathname.includes("/chapter");
     return (
         <div className="flex gap-x-2 ml-auto">
+            <ModeToggle />
             {isTeacherPage || isPlayerPage ? (
                 <Link href="/">
                     <Button size={"sm"} variant={"ghost"}>
