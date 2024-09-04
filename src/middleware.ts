@@ -6,7 +6,7 @@ export default clerkMiddleware((auth, request) => {
     }
 });
 
-const isPublicRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)"]);
+const isPublicRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)" , "/api/uploadthing"]);
 
 export const config = {
     matcher: [
