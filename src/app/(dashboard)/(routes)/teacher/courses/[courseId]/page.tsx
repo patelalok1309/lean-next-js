@@ -15,6 +15,7 @@ import { ImageForm } from "./_components/ImageForm";
 import { CategoryForm } from "./_components/CategoryForm";
 import { PriceForm } from "./_components/PriceForm";
 import { AttachmentForm } from "./_components/AttachmentForm";
+import { ChapterForm } from "./_components/ChapterForm";
 
 async function CourseIdPage({ params }: { params: { courseId: string } }) {
     const { userId } = auth();
@@ -26,8 +27,14 @@ async function CourseIdPage({ params }: { params: { courseId: string } }) {
     const course = await db.course.findUnique({
         where: {
             id: params.courseId,
+            userId: userId,
         },
         include: {
+            chapters: {
+                orderBy: {
+                    position: "asc",
+                },
+            },
             attachments: {
                 orderBy: {
                     createdAt: "desc",
@@ -52,6 +59,7 @@ async function CourseIdPage({ params }: { params: { courseId: string } }) {
         course.imageUrl,
         course.price,
         course.categoryId,
+        course.chapters.some(chapter => chapter.isPublished)
     ];
 
     const totalFields = requiredFields.length;
@@ -99,7 +107,10 @@ async function CourseIdPage({ params }: { params: { courseId: string } }) {
                             <IconBadge icon={ListChecks} />
                             <h2 className="text-xl">Course chapters</h2>
                         </div>
-                        <div>TODO: Chapters</div>
+                        <ChapterForm
+                            initialData={course}
+                            courseId={course.id}
+                        />
                     </div>
                     <div>
                         <div className="flex items-center gap-x-2">
@@ -111,7 +122,7 @@ async function CourseIdPage({ params }: { params: { courseId: string } }) {
                     <div>
                         <div className="flex items-center gap-x-2">
                             <IconBadge icon={File} />
-                            <h2 className="text-xl">Course attachments</h2>
+                            <h2 className="text-xl">Resources & Attachments</h2>
                         </div>
                         <AttachmentForm
                             initialData={course}
