@@ -46,7 +46,7 @@ const ChapterIdPage = async ({
 
     const completionText = `(${completedFields}/${totalFields})`;
 
-    const isComplete = requriedFields.every(Boolean);
+    const isCompleted = requriedFields.every(Boolean);
 
     return (
         <>
@@ -70,14 +70,14 @@ const ChapterIdPage = async ({
                         <div className="flex items-center justify-between w-full">
                             <div className="flex flex-col gap-y-2">
                                 <h1 className="text-2xl font-medium">
-                                    Chapter createion
+                                    Chapter creation
                                 </h1>
                                 <span className="text-sm text-slate-700 dark:text-white">
                                     Complete all fields {completionText}
                                 </span>
                             </div>
                             <ChapterActions 
-                                disabled={!isComplete}
+                                disabled={!isCompleted}
                                 courseId={params.courseId}
                                 chapterId={params.chapterId}
                                 isPublished={chapter.isPublished}

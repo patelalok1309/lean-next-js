@@ -1,16 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import {
-    ClerkProvider,
-    SignInButton,
-    SignedIn,
-    SignedOut,
-    UserButton,
-} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import { ToastProvider } from "@/components/providers/toaster-provider";
 import { ThemeProvider } from "@/components/theme-provider";
-const inter = Inter({ subsets: ["latin"] });
+import { ConfettiProvider } from "@/components/providers/confetti-provider";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -26,6 +20,7 @@ export default function RootLayout({
         <ClerkProvider>
             <html lang="en">
                 <body>
+                    <ConfettiProvider children={undefined} />
                     <ThemeProvider
                         attribute="class"
                         defaultTheme="system"
