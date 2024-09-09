@@ -6,13 +6,22 @@ import { Button } from "./ui/button";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { ModeToggle } from "./mode-toggle";
+import { SearchInput } from "./search-input";
 
 function NavbarRoutes() {
     const pathname = usePathname();
     const router = useRouter();
     const isTeacherPage = pathname.startsWith("/teacher");
     const isPlayerPage = pathname.includes("/chapter");
+    const isSearchPage = pathname === "/search";
     return (
+       <>
+
+       {isSearchPage && (
+        <div className="hidden md:block">
+            <SearchInput />
+        </div>
+       )}
         <div className="flex gap-x-2 ml-auto">
             <ModeToggle />
             {isTeacherPage || isPlayerPage ? (
@@ -31,6 +40,7 @@ function NavbarRoutes() {
             )}
             <UserButton />
         </div>
+       </>
     );
 }
 
