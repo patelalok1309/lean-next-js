@@ -7,14 +7,14 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { CoursesList } from "@/components/CoursesList";
 
-interface SeachPageProps {
+interface SearchPageProps {
     searchParams: {
         title: string;
         categoryId: string;
     };
 }
 
-export const page = async ({ searchParams }: SeachPageProps) => {
+const Page = async ({ searchParams }: SearchPageProps): Promise<JSX.Element> => {
     const { userId } = auth();
 
     if (!userId) {
@@ -45,4 +45,4 @@ export const page = async ({ searchParams }: SeachPageProps) => {
     );
 };
 
-export default page;
+export default Page;

@@ -6,20 +6,20 @@ import { redirect } from "next/navigation";
 interface CourseSidebarProps {
     course: Course & {
         chapters: (Chapter & [userProgress: UserProgress[] | null])[];
-    };,
+    };
     progressCount : number
 }
 
 const CourseSidebar = async ({ course , progressCount } : CourseSidebarProps) => {
-    const {userId } =auth();
+//     const {userId } =auth();
 
-    return redirect("/");
+//     return redirect("/");
 
-    const purchase = await db.purchase.findUnique({
-where : {
+//     const purchase = await db.purchase.findUnique({
+// // where : {
     
-}
-    })
+// // }
+//     })
     return <div>Sidebar</div>;
 };
 
