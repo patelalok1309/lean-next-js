@@ -19,7 +19,7 @@ export default function RootLayout({
         <ClerkProvider>
             <html lang="en">
                 <body>
-                    <ConfettiProvider children={undefined} />
+                    <ConfettiProvider>{undefined}</ConfettiProvider>
                     <ThemeProvider
                         attribute="class"
                         defaultTheme="system"
